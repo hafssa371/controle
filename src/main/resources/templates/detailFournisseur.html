@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Gestion Produits & Fournisseurs</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="/accueil">Accueil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/produits">Produits</a></li>
+        <li class="nav-item"><a class="nav-link" href="/fournisseurs">Fournisseurs</a></li>
+      </ul>
+    </div>
+  </nav>
+  <meta charset="UTF-8">
+  <title>Détails du Fournisseur</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body style="background-color: #d0e7ff">
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4">Détails du Fournisseur</h2>
+  <div class="card">
+    <div class="card-body">
+      <h5   class="card-title">Nom : <span th:text="${fournisseur.nom}"></span></h5>
+      <p class="card-text">Adresse : <span th:text="${fournisseur.adresse}"></span></p>
+      <h6 class="card-subtitle mb-2 text-muted">Produits fournis :</h6>
+      <ul class="list-group" th:if="${!produits.isEmpty()}">
+        <li class="list-group-item" th:each="produit : ${produits}">
+          <strong th:text="${produit.nom}"></strong> - <span th:text="${produit.prix}"></span> €
+          <p th:text="${produit.description}"></p>
+          <p><strong>Stock :</strong> <span th:text="${produit.stock}"></span> unités</p>
+        </li>
+      </ul>
+      <p th:if="${produits.isEmpty()}">Aucun produit fourni par ce fournisseur.</p>
+
+      <a th:href="@{/fournisseurs/edit/{id}(id=${fournisseur.id})}" class="btn btn-warning">Modifier</a>
+      <form th:action="@{/fournisseurs/delete/{id}(id=${fournisseur.id})}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce fournisseur ?');">Supprimer</button>
+      </form>
+      <a href="/fournisseurs" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
